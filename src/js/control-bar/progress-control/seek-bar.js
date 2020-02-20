@@ -253,6 +253,15 @@ class SeekBar extends Slider {
     const distance = this.calculateDistance(event);
     const liveTracker = this.player_.liveTracker;
 
+    // Immediately convert to a percentage for css value when mouse move
+    this.requestAnimationFrame(() => {
+      // Set the new bar width or height
+      const sizeKey = this.vertical() ? 'height' : 'width';
+
+      // Convert to a percentage for css value
+      this.bar.el().style[sizeKey] = (distance * 100).toFixed(2) + '%';
+    });
+
     if (!liveTracker || !liveTracker.isLive()) {
       newTime = distance * this.player_.duration();
 
